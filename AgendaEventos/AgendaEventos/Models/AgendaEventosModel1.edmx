@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AgendaEventosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categorias">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Eventos">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDCategoria" Type="int" Nullable="false" />
+          <Property Name="IDPalestrante" Type="int" Nullable="false" />
+          <Property Name="Titulo" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="DataHora" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Local" Type="nvarchar" MaxLength="120" Nullable="false" />
+          <Property Name="Descricao" Type="nvarchar(max)" />
+          <Property Name="Destaque" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Palestrantes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="120" Nullable="false" />
+          <Property Name="BioCurta" Type="nvarchar" MaxLength="300" />
+        </EntityType>
+        <Association Name="FK__Eventos__IDCateg__60A75C0F">
+          <End Role="Categorias" Type="Self.Categorias" Multiplicity="1" />
+          <End Role="Eventos" Type="Self.Eventos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorias">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Eventos">
+              <PropertyRef Name="IDCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Eventos__IDPales__619B8048">
+          <End Role="Palestrantes" Type="Self.Palestrantes" Multiplicity="1" />
+          <End Role="Eventos" Type="Self.Eventos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Palestrantes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Eventos">
+              <PropertyRef Name="IDPalestrante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AgendaEventosModelStoreContainer">
+          <EntitySet Name="Categorias" EntityType="Self.Categorias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Eventos" EntityType="Self.Eventos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Palestrantes" EntityType="Self.Palestrantes" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Eventos__IDCateg__60A75C0F" Association="Self.FK__Eventos__IDCateg__60A75C0F">
+            <End Role="Categorias" EntitySet="Categorias" />
+            <End Role="Eventos" EntitySet="Eventos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Eventos__IDPales__619B8048" Association="Self.FK__Eventos__IDPales__619B8048">
+            <End Role="Palestrantes" EntitySet="Palestrantes" />
+            <End Role="Eventos" EntitySet="Eventos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AgendaEventosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Eventos" Relationship="Self.FK__Eventos__IDCateg__60A75C0F" FromRole="Categorias" ToRole="Eventos" />
+        </EntityType>
+        <EntityType Name="Evento">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDCategoria" Type="Int32" Nullable="false" />
+          <Property Name="IDPalestrante" Type="Int32" Nullable="false" />
+          <Property Name="Titulo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DataHora" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Local" Type="String" MaxLength="120" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Descricao" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Destaque" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Categoria" Relationship="Self.FK__Eventos__IDCateg__60A75C0F" FromRole="Eventos" ToRole="Categorias" />
+          <NavigationProperty Name="Palestrante" Relationship="Self.FK__Eventos__IDPales__619B8048" FromRole="Eventos" ToRole="Palestrantes" />
+        </EntityType>
+        <EntityType Name="Palestrante">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="120" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BioCurta" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Eventos" Relationship="Self.FK__Eventos__IDPales__619B8048" FromRole="Palestrantes" ToRole="Eventos" />
+        </EntityType>
+        <Association Name="FK__Eventos__IDCateg__60A75C0F">
+          <End Role="Categorias" Type="Self.Categoria" Multiplicity="1" />
+          <End Role="Eventos" Type="Self.Evento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorias">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Eventos">
+              <PropertyRef Name="IDCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Eventos__IDPales__619B8048">
+          <End Role="Palestrantes" Type="Self.Palestrante" Multiplicity="1" />
+          <End Role="Eventos" Type="Self.Evento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Palestrantes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Eventos">
+              <PropertyRef Name="IDPalestrante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AgendaEventosEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categorias" EntityType="Self.Categoria" />
+          <EntitySet Name="Eventos" EntityType="Self.Evento" />
+          <EntitySet Name="Palestrantes" EntityType="Self.Palestrante" />
+          <AssociationSet Name="FK__Eventos__IDCateg__60A75C0F" Association="Self.FK__Eventos__IDCateg__60A75C0F">
+            <End Role="Categorias" EntitySet="Categorias" />
+            <End Role="Eventos" EntitySet="Eventos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Eventos__IDPales__619B8048" Association="Self.FK__Eventos__IDPales__619B8048">
+            <End Role="Palestrantes" EntitySet="Palestrantes" />
+            <End Role="Eventos" EntitySet="Eventos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AgendaEventosModelStoreContainer" CdmEntityContainer="AgendaEventosEntities">
+          <EntitySetMapping Name="Categorias">
+            <EntityTypeMapping TypeName="AgendaEventosModel.Categoria">
+              <MappingFragment StoreEntitySet="Categorias">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Eventos">
+            <EntityTypeMapping TypeName="AgendaEventosModel.Evento">
+              <MappingFragment StoreEntitySet="Eventos">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IDCategoria" ColumnName="IDCategoria" />
+                <ScalarProperty Name="IDPalestrante" ColumnName="IDPalestrante" />
+                <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+                <ScalarProperty Name="DataHora" ColumnName="DataHora" />
+                <ScalarProperty Name="Local" ColumnName="Local" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Destaque" ColumnName="Destaque" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Palestrantes">
+            <EntityTypeMapping TypeName="AgendaEventosModel.Palestrante">
+              <MappingFragment StoreEntitySet="Palestrantes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="BioCurta" ColumnName="BioCurta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

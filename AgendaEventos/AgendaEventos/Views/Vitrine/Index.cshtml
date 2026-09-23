@@ -1,0 +1,47 @@
+﻿@model IEnumerable<AgendaEventos.Models.Evento>
+
+@{
+    ViewBag.Title = "Vitrine";
+}
+
+<h2>Agenda de Eventos</h2>
+@using (Html.BeginForm("Index", "Vitrine", FormMethod.Get))
+{
+    <div class="row mb-4">
+        <div class="col-md-3">
+            @Html.TextBox("titulo", (string)ViewBag.Titulo, new { @class = "form-control", placeholder = "Buscar por título" })
+        </div>
+        <div class="col-md-4">
+            @Html.DropDownList("categoria", (SelectList)ViewBag.Categoria, "Todas", new { @class = "form-select" })
+        </div>
+        <div class="col-md-3">
+            <div class="form-check mt-2">
+                <input type="checkbox" name="destaque" value="1" class="form-check-input" id="destaque"
+                       @(ViewBag.Destaque ? "checked" : "") />
+                <label class="form-check-label" for="destaque">Somente destaques</label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-secondary">Filtrar</button>
+        </div>
+    </div>
+}
+<div class="row">
+    @foreach (var evento in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 @(evento.Destaque ? "border-warning bg-warning-subtle" : "")">
+                @if (evento.Destaque)
+                {
+                    <div class="card-header bg-warning fw-bold">Destaque</div>
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@evento.Titulo</h5>
+                    <p class="card-text">@evento.DataHora.ToString("dd/MM/yyyy HH:mm")</p>
+                    <p class="card-text">@evento.Local</p>
+                    @Html.ActionLink("Detalhes", "Detalhes", new { id = evento.ID }, new { @class = "btn btn-primary" })
+                </div>
+            </div>
+        </div>
+    }
+</div>

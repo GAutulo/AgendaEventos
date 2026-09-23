@@ -1,0 +1,32 @@
+﻿@model AgendaEventos.Models.Evento
+
+@{
+    ViewBag.Title = Model.Titulo;
+}
+
+<h2>@Model.Titulo</h2>
+
+<dl class="row">
+    <dt class="col-sm-3">Data/Hora</dt>
+    <dd class="col-sm-9">@Model.DataHora.ToString("dd/MM/yyyy HH:mm")</dd>
+
+    <dt class="col-sm-3">Local</dt>
+    <dd class="col-sm-9">@Model.Local</dd>
+
+    <dt class="col-sm-3">Categoria</dt>
+    <dd class="col-sm-9">@Model.Categoria.Nome</dd>
+
+    <dt class="col-sm-3">Destaque</dt>
+    <dd class="col-sm-9">@(Model.Destaque ? "Sim" : "Não")</dd>
+
+    <dt class="col-sm-3">Descrição</dt>
+    <dd class="col-sm-9">@(Model.Descricao ?? "Sem descrição.")</dd>
+
+    <dt class="col-sm-3">Palestrante</dt>
+    <dd class="col-sm-9">@Model.Palestrante.Nome</dd>
+
+    <dt class="col-sm-3">Sobre o palestrante</dt>
+    <dd class="col-sm-9">@(Model.Palestrante.BioCurta ?? "Sem biografia.")</dd>
+</dl>
+
+@Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-secondary" })

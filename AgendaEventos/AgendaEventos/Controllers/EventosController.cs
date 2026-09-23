@@ -28,8 +28,7 @@ namespace AgendaEventos.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Evento evento = db.Eventos.Find(id);
-            if (evento == null)
+            Evento evento = db.Eventos.FirstOrDefault(e => e.ID == id); if (evento == null)
             {
                 return HttpNotFound();
             }
@@ -62,7 +61,7 @@ namespace AgendaEventos.Controllers
             if (evento.DataHora < DateTime.Now)
             {
                 ModelState.AddModelError("DataHora", "Não é permitido cadastrar evento com data no passado.");
-            } 
+            }
             if (ModelState.IsValid)
             {
                 db.Eventos.Add(evento);
@@ -82,8 +81,7 @@ namespace AgendaEventos.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Evento evento = db.Eventos.Find(id);
-            if (evento == null)
+            Evento evento = db.Eventos.FirstOrDefault(e => e.ID == id); if (evento == null)
             {
                 return HttpNotFound();
             }
@@ -99,6 +97,18 @@ namespace AgendaEventos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,IDCategoria,IDPalestrante,Titulo,DataHora,Local,Descricao,Destaque")] Evento evento)
         {
+            if (string.IsNullOrWhiteSpace(evento.Titulo))
+            {
+                ModelState.AddModelError("Titulo", "O título é obrigatório.");
+            }
+            if (string.IsNullOrWhiteSpace(evento.Local))
+            {
+                ModelState.AddModelError("Local", "O local é obrigatório.");
+            }
+            if (evento.DataHora < DateTime.Now)
+            {
+                ModelState.AddModelError("DataHora", "Não é permitido cadastrar evento com data no passado.");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(evento).State = EntityState.Modified;
@@ -117,8 +127,7 @@ namespace AgendaEventos.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Evento evento = db.Eventos.Find(id);
-            if (evento == null)
+            Evento evento = db.Eventos.FirstOrDefault(e => e.ID == id); if (evento == null)
             {
                 return HttpNotFound();
             }
@@ -130,7 +139,10 @@ namespace AgendaEventos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Evento evento = db.Eventos.Find(id);
+            Evento evento = db.Eventos.FirstOrDefault(e => e.ID == id); if (evento == null)
+            {
+                return HttpNotFound();
+            }
             db.Eventos.Remove(evento);
             db.SaveChanges();
             return RedirectToAction("Index");

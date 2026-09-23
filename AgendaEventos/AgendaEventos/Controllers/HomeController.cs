@@ -10,7 +10,7 @@ namespace AgendaEventos.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Vitrine");
         }
 
         public ActionResult About()

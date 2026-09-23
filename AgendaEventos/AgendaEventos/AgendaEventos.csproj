@@ -134,6 +134,7 @@
     <Compile Include="Controllers\EventosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PalestrantesController.cs" />
+    <Compile Include="Controllers\VitrineController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -158,6 +159,7 @@
     <Compile Include="Models\Evento.cs">
       <DependentUpon>AgendaEventosModel1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EventoMetaData.cs" />
     <Compile Include="Models\Palestrante.cs">
       <DependentUpon>AgendaEventosModel1.tt</DependentUpon>
     </Compile>
@@ -246,6 +248,8 @@
     <Content Include="Views\Eventos\Details.cshtml" />
     <Content Include="Views\Eventos\Edit.cshtml" />
     <Content Include="Views\Eventos\Index.cshtml" />
+    <Content Include="Views\Vitrine\Index.cshtml" />
+    <Content Include="Views\Vitrine\Detalhes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -296,9 +300,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>55904</DevelopmentServerPort>
+          <DevelopmentServerPort>55910</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:55904/</IISUrl>
+          <IISUrl>http://localhost:55910/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
